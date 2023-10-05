@@ -63,22 +63,24 @@ export default function Meal({
       <Ingredients>
         <ol>
           <h2>Ingredientes</h2>
-          {ingredients.map((ingredient) => (
-            <li key={ingredient}>{ingredient}</li>
-          ))}
+          {ingredients &&
+            ingredients.map((ingredient) => (
+              <li key={ingredient}>{ingredient}</li>
+            ))}
         </ol>
         <ol>
           <h2>Medidas</h2>
-          {measures.map((measure) => (
-            <li key={measure}>{measure}</li>
-          ))}
+          {measures &&
+            measures.map((measure) => <li key={measure}>{measure}</li>)}
         </ol>
       </Ingredients>
       <Actions>
-        <Button>
-          <Link href={youtube}>Youtube</Link>
-        </Button>
-        <Link href={source}>fonte original</Link>
+        {youtube && (
+          <Button>
+            <Link href={youtube}>Youtube</Link>
+          </Button>
+        )}
+        {source && <Link href={source}>fonte original</Link>}
       </Actions>
     </Container>
   )
@@ -100,10 +102,10 @@ export const getStaticProps: GetServerSideProps = async ({ params }) => {
   const mealMeasures = []
 
   for (let index = 1; index <= 20; index++) {
-    if (meal.data.meals[0][`strIngredient${index}`] !== '') {
+    if (meal.data.meals[0][`strIngredient${index}`] !== null || '') {
       mealIngredients[index - 1] = meal.data.meals[0][`strIngredient${index}`]
     }
-    if (meal.data.meals[0][`strMeasure${index}`] !== '') {
+    if (meal.data.meals[0][`strMeasure${index}`] !== null || '') {
       mealMeasures[index - 1] = meal.data.meals[0][`strMeasure${index}`]
     }
   }
